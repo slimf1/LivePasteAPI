@@ -40,6 +40,8 @@ namespace DAL.Repository
 
         public IEnumerable<Paste> GetPastes(string language)
         {
+            if (language == null)
+                return _context.Pastes.ToList();
             return _context.Pastes.Where(paste => paste.Language.ToLower() == language.ToLower());
         }
 

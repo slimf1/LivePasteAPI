@@ -23,13 +23,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Paste> Get()
-        {
-            return _pasteRepository.GetPastes();
-        }
-
-        [HttpGet("language/{language}")]
-        public IEnumerable<Paste> Get(string language)
+        public IEnumerable<Paste> Get(string language = null)
         {
             return _pasteRepository.GetPastes(language);
         }
