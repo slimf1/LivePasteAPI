@@ -1,22 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace DAL
 {
     public class LivePasteContext : DbContext
     {
+        private readonly IConfiguration _configuration;
+
         public virtual DbSet<Models.Paste> Pastes { get; set; }
 
-        public LivePasteContext()
+        public LivePasteContext(IConfiguration configuration)
         {
-        }
-
-        public LivePasteContext(DbContextOptions<LivePasteContext> options)
-            : base(options)
-        {
-
+            _configuration = configuration;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,7 +23,7 @@ namespace DAL
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite(Utils.ReadFile("..\\DAL\\ConnectionString.txt"));
+                optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
             }
         }
     }

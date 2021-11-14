@@ -7,25 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using DAL;
 using DAL.Repository;
 using DAL.Models;
-
+using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/v1/pastes")]
+    [Produces("application/json")]
     public class PasteController : ControllerBase
     {
         private IPasteRepository _pasteRepository;
+        private readonly IConfiguration _configuration;
 
-        public PasteController()
+        public PasteController(IConfiguration configuration)
         {
-            _pasteRepository = new PasteRepository(new LivePasteContext());
+            _pasteRepository = new PasteRepository(new LivePasteContext(configuration));
+            _configuration = configuration;
         }
 
         [HttpGet]
         public IEnumerable<Paste> Get(string language = null)
         {
-            return _pasteRepository.GetPastes(language);
+            return _pasteRepository.GetPastesFromLanguage(language);
         }
 
         [HttpGet("{id}")]

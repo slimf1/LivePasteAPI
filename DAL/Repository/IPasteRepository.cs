@@ -7,7 +7,7 @@ namespace DAL.Repository
     public interface IPasteRepository : IDisposable
     {
         IEnumerable<Paste> GetPastes();
-        IEnumerable<Paste> GetPastes(string language);
+        IEnumerable<Paste> GetPastesFromLanguage(string language);
         Paste GetPasteByID(int pasteId);
         bool InsertPaste(Paste paste);
         bool DeletePaste(int pasteId);

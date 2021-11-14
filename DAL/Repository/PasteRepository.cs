@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DAL.Repository
 {
@@ -38,10 +37,12 @@ namespace DAL.Repository
             return _context.Pastes.ToList();
         }
 
-        public IEnumerable<Paste> GetPastes(string language)
+        public IEnumerable<Paste> GetPastesFromLanguage(string language)
         {
             if (language == null)
+            {
                 return _context.Pastes.ToList();
+            }
             return _context.Pastes.Where(paste => paste.Language.ToLower() == language.ToLower());
         }
 
@@ -62,8 +63,6 @@ namespace DAL.Repository
             if (existingPaste != null)
             {
                 existingPaste.Content = paste.Content;
-                //existingPaste.CreationDate = paste.CreationDate;
-                
                 return true;
             }
             return false; 
@@ -73,11 +72,6 @@ namespace DAL.Repository
         {
             if (!_disposed)
             {
-                if (disposing)
-                {
-                    // TODO: supprimer l'état managé (objets managés)
-                }
-
                 _context.Dispose();
                 _disposed = true;
             }
